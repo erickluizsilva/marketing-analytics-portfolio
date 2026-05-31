@@ -43,6 +43,25 @@ FROM
 	dbo.customer_reviews;
 
 
+-- fat_engagement_data
+
+SELECT
+	EngagementID,
+	ContentID,
+	CampaignID,
+	ProductID,
+	UPPER(REPLACE(ContentType, 'SocialMedia', 'Social Media')) AS ContentType,
+	SUBSTRING(ViewsClicksCombined,1,CHARINDEX('-', ViewsClicksCombined) -1) AS Views,
+	SUBSTRING(ViewsClicksCombined,CHARINDEX('-', ViewsClicksCombined) +1,LEN(ViewsClicksCombined)) AS Clicks,
+	Likes,
+	EngagementDate
+
+FROM
+	dbo.engagement_data
+ WHERE 
+	ContentType <> 'Newsletter';
+
+
 -- fat_customer_journey
 
 SELECT JourneyID,

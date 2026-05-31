@@ -56,6 +56,7 @@ Quatro tabelas foram utilizadas, todas armazenadas no banco `PortfolioProject_Ma
 | `dbo.customers` | Cadastro de clientes |
 | `dbo.geography` | Localização geográfica (país e cidade) |
 | `dbo.customer_reviews` | Avaliações textuais e notas dos clientes |
+| `dbo.engagement_data` | Métricas de engajamento por conteúdo e campanha (views, cliques, curtidas) |
 | `dbo.customer_journey` | Etapas da jornada de compra por cliente e produto |
 
 A análise exploratória investigou distribuições, correlações entre variáveis e qualidade dos dados (valores ausentes, duplicatas, inconsistências de tipo).
@@ -73,6 +74,7 @@ As queries constroem as dimensões do Star Schema diretamente no SQL Server:
 | `dim_products` | Dimensão | Categorização de faixa de preço (`Low / Medium / High`) |
 | `dim_customers` | Dimensão | Join com `geography` para enriquecer com país e cidade |
 | `fat_customer_reviews` | Fato | Remoção de espaços duplos no campo `ReviewText` |
+| `fat_engagement_data` | Fato | Normalização de `ContentType` (padronização para maiúsculas + substituição de `SocialMedia`), separação de `ViewsClicksCombined` em colunas `Views` e `Clicks` via `SUBSTRING`/`CHARINDEX`, exclusão de registros do tipo `Newsletter` |
 | `fat_customer_journey` | Fato | Deduplicação por `ROW_NUMBER`, imputação de `Duration` com média da data via `AVG() OVER` |
 
 ### Análise de sentimento — [`customer_review_enrichment.py`](customer_review_enrichment.py)
